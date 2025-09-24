@@ -1,6 +1,5 @@
 package com.example.banksystem.User.ApiResource;
 
-import com.example.banksystem.User.DTO.AdminTransactionDTO;
 import com.example.banksystem.User.DTO.UserAdminDTO;
 import com.example.banksystem.User.Entity.User;
 import com.example.banksystem.User.Service.UserService;
@@ -24,10 +23,8 @@ public class UserContoller {
     @PostMapping("/user-details")
     public ResponseEntity<Map<String, String>> saveUserDetails(@RequestBody User userEntity){
         User savedUser = userService.saveUserDetails(userEntity);
-
         Map<String, String> response = new HashMap<>();
         response.put("message", "User Registered successfully");
-
         return ResponseEntity.ok(response);
     }
 

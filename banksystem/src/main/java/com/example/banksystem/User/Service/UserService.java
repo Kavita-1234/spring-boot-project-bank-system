@@ -7,10 +7,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
 public interface UserService extends UserDetailsService {
+
+    //Create user
     User saveUserDetails(User userEntity);
 
     //user login

@@ -7,6 +7,7 @@ import com.example.banksystem.Accounts.Entity.Accounts;
 import com.example.banksystem.Accounts.Repository.AccountsRepository;
 import com.example.banksystem.Accounts.Repository.UserAccountJDBC;
 import com.example.banksystem.Accounts.Service.AccountService;
+import com.example.banksystem.GlobalExceptionHandler.InvalidAmountException;
 import com.example.banksystem.User.Entity.User;
 import com.example.banksystem.User.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,10 +35,39 @@ public class AccountsServiceImpl implements AccountService {
         String userName = authentication.getName();
         User user = userRepository.findByUserName(userName)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        //validation
+        if(accounts.getBalance() <= 0){
+            throw new InvalidAmountException("Invalid amount. Please enter an amount greater than 0.");
+        }
         accounts.setUser(user);
         Accounts saveAccount = accountsRepository.save(accounts);
         return accountsRepository.save(saveAccount);
+    }
 
+    //Update account by id
+    @Override
+    public Accounts updateAccountDetails(int account_id, Accounts accounts, Authentication authentication){
+        String userName = authentication.getName();
+        User user = userRepository.findByUserName(userName)
+                .orElseThrow(()-> new UsernameNotFoundException("User not found"));
+
+        //validation amount
+        if(accounts.getBalance() <=0 ){
+            throw new InvalidAmountException("Invalid amount");
+        }
+
+        return accountsRepository.findById(account_id)
+                .map(existingAccount -> {
+                    existingAccount.setAccountNumber(accounts.getAccountNumber());
+                    existingAccount.setAccount_type(accounts.getAccount_type());
+                    existingAccount.setStatus(accounts.getStatus());
+                    existingAccount.setBalance(accounts.getBalance());
+                    existingAccount.setOpenedDate(accounts.getOpenedDate());
+                    existingAccount.setUser(user);
+                    return accountsRepository.save(existingAccount);
+                })
+                .orElseThrow(() -> new RuntimeException("Account not found by:"+ account_id));
     }
 
     //Get all users account
@@ -71,7 +101,7 @@ public class AccountsServiceImpl implements AccountService {
         // Mark as INACTIVE
         account.setStatus(StatusEnum.INACTIVE);
 
-        // Associate with user who performed the action (optional)
+        // user performed the action
         account.setUser(user);
         return accountsRepository.save(account);
     }

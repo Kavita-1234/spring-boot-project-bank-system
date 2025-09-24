@@ -1,5 +1,6 @@
 package com.example.banksystem.Transaction.DTO;
 
+import com.example.banksystem.Accounts.Const.StatusEnum;
 import com.example.banksystem.Transaction.Const.TransactionEnum;
 
 import java.util.Date;
@@ -11,18 +12,20 @@ public class DepositReqDTO {
     private int amount;
     private int relatedAccountId;
     private TransactionEnum type;
+    private StatusEnum status;
     private Date txnDate;
 
     public DepositReqDTO() {
     }
 
-    public DepositReqDTO(int accountId, int userId, int txnId, int amount, int relatedAccountId, TransactionEnum type, Date txnDate) {
+    public DepositReqDTO(int accountId, int userId, int txnId, int amount, int relatedAccountId, TransactionEnum type, StatusEnum status, Date txnDate) {
         this.accountId = accountId;
         this.userId = userId;
         this.txnId = txnId;
         this.amount = amount;
         this.relatedAccountId = relatedAccountId;
         this.type = type;
+        this.status = status;
         this.txnDate = txnDate;
     }
 
@@ -72,6 +75,14 @@ public class DepositReqDTO {
 
     public void setType(TransactionEnum type) {
         this.type = type;
+    }
+
+    public StatusEnum getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusEnum status) {
+        this.status = status;
     }
 
     public Date getTxnDate() {

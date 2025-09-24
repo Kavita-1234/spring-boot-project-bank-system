@@ -1,12 +1,12 @@
 package com.example.banksystem.Transaction.ApiResource;
 
-
 import com.example.banksystem.Transaction.DTO.*;
 import com.example.banksystem.Transaction.Entity.Transactions;
 import com.example.banksystem.Transaction.Service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -25,6 +25,7 @@ public class TransactionsController {
     public ResponseEntity<Map<String, String>> saveTransactionDetails(@RequestBody TransSaveDTO transSaveDTO, Authentication authentication){
         Transactions saveTransaction = transactionService.saveTransactionDetails(transSaveDTO, authentication);
         HashMap<String, String> response = new HashMap<>();
+        response.put("resourceId", String.valueOf(saveTransaction.getTxnId()));
         response.put("message", "New Transaction created successfully");
         return ResponseEntity.ok(response);
     }
@@ -66,7 +67,7 @@ public class TransactionsController {
     public ResponseEntity<Map<String, String>> getByTransactionAmountTransfer(@RequestBody TransAmountReqDTO transAmountReqDTO, Authentication authentication){
         Transactions result = transactionService.getByTransactionAmountTransfer(transAmountReqDTO, authentication);
         HashMap<String , String> response = new HashMap<>();
-        response.put("message", "Deposit money transaction");
+        response.put("message", "Money transfer one account to another");
         return ResponseEntity.ok(response);
     }
 }

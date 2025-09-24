@@ -10,7 +10,6 @@ import java.util.Date;
 @Entity
 public class Transactions {
 
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "txn_id")

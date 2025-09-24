@@ -27,9 +27,21 @@ public class AccountsController {
     public ResponseEntity<Map<String, String>> saveAccountDetails(@RequestBody Accounts accounts, Authentication authentication){
         Accounts saveAccount = accountService.saveAccountDetails(accounts, authentication);
         HashMap<String, String> response = new HashMap<>();
-        response.put("message","User account created successfully");
+        response.put("resourceId", String.valueOf(saveAccount.getAccountId()));
+        response.put("message", "User account created successfully");
         return ResponseEntity.ok(response);
     }
+
+    //update account
+    @PutMapping("/update-account")
+    public ResponseEntity<Map<String, String>> updateAccountDetails(@RequestParam int account_id, @RequestBody Accounts accounts, Authentication authentication){
+        Accounts updateAcc = accountService.updateAccountDetails(account_id, accounts, authentication);
+        HashMap<String, String> response = new HashMap<>();
+        response.put("ResourceId", String.valueOf(updateAcc.getAccountId()));
+        response.put("message", "Update account successfully");
+        return ResponseEntity.ok(response);
+    }
+
 
     //Get all users account
     @GetMapping("/get-user-account")
@@ -50,6 +62,7 @@ public class AccountsController {
     public ResponseEntity<Map<String, String>> getInactiveAccountById(@RequestBody CloseAccountDTO closeAccountDTO, Authentication authentication){
         Accounts result = accountService.getInactiveAccountById(closeAccountDTO, authentication);
         HashMap<String, String> response = new HashMap<>();
+        response.put("ResourceId", String.valueOf(result.getAccountId()));
         response.put("message", "Inactive account");
         return ResponseEntity.ok(response);
     }

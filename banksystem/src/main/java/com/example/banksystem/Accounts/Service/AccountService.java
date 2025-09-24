@@ -9,7 +9,11 @@ import java.util.List;
 
 public interface AccountService {
 
+    //Create account
     Accounts saveAccountDetails(Accounts accounts, Authentication authentication);
+
+    //Update account
+    Accounts updateAccountDetails(int account_id, Accounts accounts, Authentication authentication);
 
     //Get all users account
     List<UserAccountDTO> getUserAccount(Authentication authentication);
